@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri May 15 19:52:21 2020
+
+@author: yojeremijenko-conel
+"""
+
+from imageai.Detection import ObjectDetection
+import os
+import tensorflow as tf
+import pandas as pd
+#%%
+
+from tensorflow.python.client import device_lib 
+print(device_lib.list_local_devices())
+
+
+#%%
+
+execution_path = os.getcwd()
+
+detector = ObjectDetection()
+detector.setModelTypeAsRetinaNet()
+detector.setModelPath(os.path.join(execution_path , "resnet50_coco_best_v2.0.1.h5"))
+detector.loadModel()
+fname = 'Pictures/Cazenga/Hoji Ya Henda/00067e52-4e8c-4035-b16e-c977266597d7/1548773782221.jpg' 
+detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , fname),
+                                             output_image_path=os.path.join(execution_path , 'Pictures/Cazenga/Hoji Ya Henda/00067e52-4e8c-4035-b16e-c977266597d7/1548773782221_AI.jpg'))
+
+for eachObject in detections:
+   print(eachObject["name"] , " : " , eachObject["percentage_probability"])
